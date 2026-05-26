@@ -1,485 +1,179 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 每日日报 - 2026年05月25日</title>
+<title>AI Daily - 2026年05月26日</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
-  background: #f4f5f9;
-  color: #1a1a2e;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-/* ---- Header ---- */
-.header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  padding: 32px 32px 24px;
-  text-align: center;
-}
-.header h1 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  letter-spacing: 1px;
-}
-.header .date {
-  font-size: 14px;
-  opacity: 0.85;
-}
-.header .stats {
-  margin-top: 8px;
-  font-size: 12px;
-  opacity: 0.65;
-}
-
-/* ---- Hot Bar ---- */
-.hot-bar {
-  background: #fff8f2;
-  border-bottom: 1px solid #ffe4cc;
-  padding: 10px 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.hot-label {
-  font-size: 12px;
-  color: #f59e0b;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.hot-tag {
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 12px;
-  border: 1px solid #fed7aa;
-  color: #92400e;
-  background: #fff7ed;
-  cursor: default;
-}
-.hot-tag.heat-2 { background:#fff3cd; border-color:#fcd34d; color:#78350f; }
-.hot-tag.heat-3 { background:#fef3c7; border-color:#f59e0b; color:#92400e; font-weight:500; }
-.hot-tag.heat-4, .hot-tag.heat-5 {
-  background: linear-gradient(90deg,#fee2e2,#fde68a);
-  border-color: #f59e0b;
-  color: #7c2d12;
-  font-weight: 600;
-}
-
-/* ---- Filter Bar ---- */
-.filter {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 10px 24px;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.filter::-webkit-scrollbar { height: 0; }
-
-.cat-btn {
-  flex-shrink: 0;
-  padding: 5px 14px;
-  border-radius: 20px;
-  border: 1.5px solid #e5e7eb;
-  background: #fff;
-  color: #6b7280;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all .2s;
-  white-space: nowrap;
-  font-family: inherit;
-}
-.cat-btn:hover { border-color: #667eea; color: #667eea; }
-.cat-btn.active { background: #667eea; border-color: #667eea; color: #fff; }
-.cnt {
-  display: inline-block;
-  min-width: 16px;
-  height: 16px;
-  line-height: 16px;
-  text-align: center;
-  border-radius: 8px;
-  font-size: 11px;
-  margin-left: 3px;
-  background: rgba(0,0,0,0.08);
-  padding: 0 4px;
-}
-.cat-btn.active .cnt { background: rgba(255,255,255,0.3); }
-
-/* ---- Card Grid ---- */
-.grid {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px 20px 60px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 14px;
-}
-@media (max-width: 520px) {
-  .grid { grid-template-columns: 1fr; padding: 12px; }
-}
-
-/* ---- Card ---- */
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 18px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  border: 1px solid #f0f0f4;
-  transition: box-shadow .2s, transform .15s;
-  display: flex;
-  flex-direction: column;
-}
-.card:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
-  transform: translateY(-2px);
-}
-.card-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #9ca3af;
-  margin-bottom: 7px;
-}
-.src {
-  background: #f3f4f6;
-  padding: 2px 7px;
-  border-radius: 4px;
-  font-weight: 500;
-  color: #374151;
-}
-.card-title {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.5;
-  margin-bottom: 7px;
-  color: #1f2937;
-}
-.card-title a { color: inherit; text-decoration: none; }
-.card-title a:hover { color: #667eea; }
-.card-desc {
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.6;
-  margin-bottom: 10px;
-  flex-grow: 1;
-}
-.card-ft {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-.badge {
-  font-size: 11px;
-  padding: 2px 9px;
-  border-radius: 10px;
-  font-weight: 500;
-}
-.go {
-  font-size: 12px;
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color .2s;
-}
-.go:hover { color: #4f46e5; text-decoration: underline; }
-
-/* ---- Empty ---- */
-.empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: #9ca3af;
-  font-size: 15px;
-  grid-column: 1 / -1;
-}
-
-/* ---- Footer ---- */
-.footer {
-  text-align: center;
-  padding: 20px;
-  color: #9ca3af;
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-/* ---- Back to top ---- */
-.btt {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #667eea;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 17px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(102,126,234,0.4);
-  z-index: 200;
-}
-.btt.show { display: flex; }
-.btt:hover { opacity: 0.85; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:32px 32px 24px;text-align:center}
+.header h1{font-size:26px;font-weight:700;margin-bottom:4px;letter-spacing:1px}
+.header .date{font-size:14px;opacity:.85}
+.hot-bar{background:#fff8f2;border-bottom:1px solid #ffe4cc;padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hot-label{font-size:12px;color:#f59e0b;font-weight:600;flex-shrink:0}
+.hot-tag{font-size:12px;padding:3px 10px;border-radius:12px;border:1px solid #fed7aa;color:#92400e;background:#fff7ed;cursor:default}
+.hot-tag.heat-2{background:#fff3cd;border-color:#fcd34d;color:#78350f}
+.hot-tag.heat-3{background:#fef3c7;border-color:#f59e0b;color:#92400e;font-weight:500}
+.hot-tag.heat-4,.hot-tag.heat-5{background:linear-gradient(90deg,#fee2e2,#fde68a);border-color:#f59e0b;color:#7c2d12;font-weight:600}
+.filter{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.filter::-webkit-scrollbar{height:0}
+.cat-btn{flex-shrink:0;padding:5px 14px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;color:#6b7280;font-size:13px;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:inherit}
+.cat-btn:hover{border-color:#667eea;color:#667eea}
+.cat-btn.active{background:#667eea;border-color:#667eea;color:#fff}
+.cnt{display:inline-block;min-width:16px;height:16px;line-height:16px;text-align:center;border-radius:8px;font-size:11px;margin-left:3px;background:rgba(0,0,0,.08);padding:0 4px}
+.cat-btn.active .cnt{background:rgba(255,255,255,.3)}
+.grid{max-width:960px;margin:0 auto;padding:20px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+@media(max-width:520px){.grid{grid-template-columns:1fr;padding:12px}}
+.card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f0f4;transition:box-shadow .2s,transform .15s;display:flex;flex-direction:column}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.09);transform:translateY(-2px)}
+.card-meta{display:flex;justify-content:space-between;font-size:12px;color:#9ca3af;margin-bottom:7px}
+.src{background:#f3f4f6;padding:2px 7px;border-radius:4px;font-weight:500;color:#374151}
+.card-title{font-size:15px;font-weight:600;line-height:1.5;margin-bottom:7px;color:#1f2937}
+.card-title a{color:inherit;text-decoration:none}
+.card-title a:hover{color:#667eea}
+.card-desc{font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:10px;flex-grow:1}
+.card-ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.badge{font-size:11px;padding:2px 9px;border-radius:10px;font-weight:500}
+.go{font-size:12px;color:#667eea;text-decoration:none;font-weight:500;transition:color .2s}
+.go:hover{color:#4f46e5;text-decoration:underline}
+.empty{text-align:center;padding:60px 20px;color:#9ca3af;font-size:15px;grid-column:1/-1}
+.footer{text-align:center;padding:20px;color:#9ca3af;font-size:12px;line-height:1.8}
+.btt{position:fixed;bottom:24px;right:24px;width:38px;height:38px;border-radius:50%;background:#667eea;color:#fff;border:none;cursor:pointer;font-size:17px;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(102,126,234,.4);z-index:200}
+.btt.show{display:flex}
+.btt:hover{opacity:.85}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>AI 每日日报</h1>
-  <div class="date">2026年05月25日 周一</div>
-</div>
-
-<div class="hot-bar"><span class="hot-label">今日热点</span><span class="hot-tag heat-2" title="来自 2 个数据源">Claude</span><span class="hot-tag heat-2" title="来自 2 个数据源">大模型</span><span class="hot-tag heat-1" title="来自 1 个数据源">Agent</span><span class="hot-tag heat-1" title="来自 1 个数据源">DeepSeek</span><span class="hot-tag heat-1" title="来自 1 个数据源">上市</span><span class="hot-tag heat-1" title="来自 1 个数据源">智能体</span><span class="hot-tag heat-1" title="来自 1 个数据源">机器人</span><span class="hot-tag heat-1" title="来自 1 个数据源">算力</span></div>
-
-<div class="filter">
-  <button class="cat-btn active" data-cat="all">全部 <span class="cnt">15</span></button><button class="cat-btn" data-cat="compute">🖥️ 智算算力 <span class="cnt">4</span></button><button class="cat-btn" data-cat="model">🤖 大模型与智能体 <span class="cnt">5</span></button><button class="cat-btn" data-cat="industry">🏭 行业应用 <span class="cnt">4</span></button><button class="cat-btn" data-cat="other">其他 <span class="cnt">2</span></button>
-</div>
-
-<div class="grid">
-  <div class="card" data-category="model">
+<div class="header"><h1>AI Daily</h1><div class="date">2026年05月26日</div></div>
+<div class="hot-bar"><span class="hot-label">今日热点</span><span class="hot-tag heat-3" title="from 3 sources">Agent</span><span class="hot-tag heat-2" title="from 2 sources">Claude</span><span class="hot-tag " title="from 1 sources">GPT</span><span class="hot-tag " title="from 1 sources">算力</span><span class="hot-tag " title="from 1 sources">DeepSeek</span><span class="hot-tag " title="from 1 sources">Gemini</span><span class="hot-tag " title="from 1 sources">智能体</span><span class="hot-tag " title="from 1 sources">大模型</span></div>
+<div class="filter"><button class="cat-btn active" data-cat="all">全部 <span class="cnt">11</span></button><button class="cat-btn" data-cat="compute">🖥️ 智算算力 <span class="cnt">4</span></button><button class="cat-btn" data-cat="model">🤖 大模型与智能体 <span class="cnt">7</span></button></div>
+<div class="grid"><div class="card" data-category="model">
   <div class="card-meta">
-    <span class="src">虎嗅</span>
-    <span class="tm">今天 08:01</span>
+    <span class="src">量子位</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://www.huxiu.com/article/4838105.html" target="_blank" rel="noopener">AI大模型Claude入列美军始末</a></h3>
-  
+  <h3 class="card-title"><a href="https://www.qbitai.com/2026/05/424851.html" target="_blank" rel="noopener">刚刚，国产Agent模型闯入全球第一梯队！限时免费</a></h3>
+  <p class="card-desc">深度适配OpenClaw、Claude Code、Hermes等</p>
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.huxiu.com/article/4838105.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.qbitai.com/2026/05/424851.html" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="model">
+</div><div class="card" data-category="model">
   <div class="card-meta">
-    <span class="src">虎嗅</span>
-    <span class="tm">今天 08:01</span>
+    <span class="src">量子位</span>
+    <span class="tm">05-25 17:37</span>
   </div>
-  <h3 class="card-title"><a href="https://www.huxiu.com/article/4842391.html" target="_blank" rel="noopener">当8家顶级AI集体“说谎”:谁在给大模型投毒,谁又在装睡?</a></h3>
-  
+  <h3 class="card-title"><a href="https://www.qbitai.com/2026/05/424794.html" target="_blank" rel="noopener">京东JoyInside戴文军：AI的终极形态不是聊天，是融入你家每一件物品丨AIGC2026</a></h3>
+  <p class="card-desc">硬件不该让人适应，它应该主动适应你</p>
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.huxiu.com/article/4842391.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.qbitai.com/2026/05/424794.html" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="compute">
-  <div class="card-meta">
-    <span class="src">腾讯科技</span>
-    <span class="tm">今天 08:01</span>
-  </div>
-  <h3 class="card-title"><a href="https://baijiahao.baidu.com/s?id=1865523197965478132&wfr=spider&for=pc" target="_blank" rel="noopener">腾讯/电信/高德同日发布重磅AI平台,算力Token低至9.9元|每日大事件</a></h3>
-  
-  <div class="card-ft">
-    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
-    <a href="https://baijiahao.baidu.com/s?id=1865523197965478132&wfr=spider&for=pc" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="other">
-  <div class="card-meta">
-    <span class="src">腾讯科技</span>
-    <span class="tm">今天 08:01</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.stdaily.com/web/gdxw/2026-05/24/content_521579.html" target="_blank" rel="noopener">重庆腾讯可持续AI创新专项基金正式启动</a></h3>
-  
-  <div class="card-ft">
-    <span class="badge" style="background:#6b728018;color:#6b7280">其他</span>
-    <a href="https://www.stdaily.com/web/gdxw/2026-05/24/content_521579.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="compute">
+</div><div class="card" data-category="model">
   <div class="card-meta">
     <span class="src">36氪</span>
-    <span class="tm">昨天 23:55</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://36kr.com/newsflashes/3823942860951682?f=rss" target="_blank" rel="noopener">AI数据中心电力需求催热A股电力设备板块</a></h3>
-  <p class="card-desc">5月份以来，电力设备板块热度不减，成为机构调研的重点方向之一。Wind数据显示，按照申万一级行业分类，截至5月24日，月内已有42家电力设备行业A股上市公司接待机构调研，涵盖储能、变压器、充电桩、电源设备、电网设备等多个细分领域。从调研方向...</p>
+  <h3 class="card-title"><a href="https://36kr.com/newsflashes/3825667158266500?f=rss" target="_blank" rel="noopener">Code Arena：阿里千问3.7编程能力超越GPT、Gemini，仅次于Claude系列</a></h3>
+  <p class="card-desc">36氪获悉，5月26日凌晨，全球三方编程榜单Code Arena放榜，阿里最新旗舰模型Qwen3.7-Max得分1541，超越GPT-5.5、Gemini-3.5-Flash等一众模型，仅次于Claude系列，在大模型厂商中排名全球第二。</p>
   <div class="card-ft">
-    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
-    <a href="https://36kr.com/newsflashes/3823942860951682?f=rss" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
+    <a href="https://36kr.com/newsflashes/3825667158266500?f=rss" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="industry">
+</div><div class="card" data-category="compute">
   <div class="card-meta">
     <span class="src">36氪</span>
-    <span class="tm">昨天 23:49</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://36kr.com/newsflashes/3823936985387139?f=rss" target="_blank" rel="noopener">中信建投：医疗器械板块业绩估值双修复</a></h3>
-  <p class="card-desc">36氪获悉，中信建投证券研报认为，受耗材集采、医疗合规要求提升等因素影响，A股申万医疗器械指数2020—2024年持续下跌，2025年先涨后跌，展望未来，随着政策影响逐步出清，企业战略调整后业绩复苏，器械板块有望迎来估值、业绩双修复，建议2...</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#10b98118;color:#10b981">行业应用</span>
-    <a href="https://36kr.com/newsflashes/3823936985387139?f=rss" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="compute">
-  <div class="card-meta">
-    <span class="src">IT之家</span>
-    <span class="tm">昨天 23:30</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.ithome.com/0/954/651.htm" target="_blank" rel="noopener">IT早报 0525：华为自研 DoB 封装技术突破；长安汽车内幕交易案员工被罚 1669 万元；“死了么”App 被收编改名“在么在么”；大疆日本摄像机市占超七成...</a></h3>
-  <p class="card-desc">“IT早报”时间，大家好，现在是 2026 年 5 月 25 日星期一，今天的重要科技资讯有：1、华为自研全新 DoB 封装技术：绕过 400 层 NAND 造出 122TB 企业级 SSD，未来还计划推出 245TB 版本华为在巴黎 ID...</p>
+  <h3 class="card-title"><a href="https://36kr.com/newsflashes/3825644211425929?f=rss" target="_blank" rel="noopener">今年河北推进68个亿元以上电子信息项目建设</a></h3>
+  <p class="card-desc">今年河北以项目建设为支撑，以集群化发展为重点，以产业创新为驱动，深入开展“人工智能+制造”专项行动，推进集成电路、新型显示、现代通信、软件、大数据等高质量发展。重大项目是稳增长的“压舱石”，也是推动经济高质量发展的“强引擎”。省工信厅电子信...</p>
   <div class="card-ft">
     <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
-    <a href="https://www.ithome.com/0/954/651.htm" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://36kr.com/newsflashes/3825644211425929?f=rss" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="compute">
-  <div class="card-meta">
-    <span class="src">IT之家</span>
-    <span class="tm">昨天 23:30</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.ithome.com/0/954/650.htm" target="_blank" rel="noopener">Linux 7.1-rc5 内核发布，Linus 对不必要改动、代码规模膨胀不满意</a></h3>
-  <p class="card-desc">IT之家 5 月 25 日消息，据科技媒体 Phoronix 昨天报道，Linux 7.1-rc5 内核现已发布，本次候选版本继续带来大量修复更新，并新增更多 AI 生成代码。IT之家在此援引 Phoronix，Claude Code 等 ...</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
-    <a href="https://www.ithome.com/0/954/650.htm" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="industry">
-  <div class="card-meta">
-    <span class="src">钛媒体</span>
-    <span class="tm">昨天 23:20</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.tmtpost.com/8000606.html" target="_blank" rel="noopener">【钛晨报】事关未落户常住人口住房、社保、就业、子女教育等，国务院最新部署；神舟二十三号载人飞船发射取得圆满成功；DeepSeek宣布永久降价</a></h3>
-  <p class="card-desc">富途控股拟被罚18.5亿，老虎证券罚没超4亿；特斯拉中国将FSD更名为特斯拉辅助驾驶；央行今日将开展6000亿元MLF操作；闻泰科技：安世荷兰声称公司回避与其沟通完全与事实不符；腾讯承诺不再与相关版权方达成或变相达成版权独家授权合同；“死了...</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#10b98118;color:#10b981">行业应用</span>
-    <a href="https://www.tmtpost.com/8000606.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="industry">
+</div><div class="card" data-category="compute">
   <div class="card-meta">
     <span class="src">少数派</span>
-    <span class="tm">昨天 22:36</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://sspai.com/post/110130" target="_blank" rel="noopener">派早报：GitHub 在微软治下面临技术和人员流失困境</a></h3>
-  <p class="card-desc">GitHub 在微软治下面临技术和人员流失困境老虎、富途、长桥将被全面取缔境内业务谷歌搜索 AI 模式误将 disregard 等关键词当作指令「死了么」更名为「在么在么」用于老人居家安全公安部拟明确取证中获取密码等特殊程序 伦敦 iPho...</p>
+  <h3 class="card-title"><a href="https://sspai.com/post/110171" target="_blank" rel="noopener">派早报：OPPO 与荣耀发布多款新品，华为发表半导体领域新定律等</a></h3>
+  
   <div class="card-ft">
-    <span class="badge" style="background:#10b98118;color:#10b981">行业应用</span>
-    <a href="https://sspai.com/post/110130" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
+    <a href="https://sspai.com/post/110171" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="model">
+</div><div class="card" data-category="model">
   <div class="card-meta">
-    <span class="src">量子位</span>
-    <span class="tm">昨天 10:50</span>
+    <span class="src">InfoQ中文</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://www.qbitai.com/2026/05/423421.html" target="_blank" rel="noopener">卷到今天，Agent的含金量还在提升丨AIGC2026圆桌论坛</a></h3>
-  <p class="card-desc">大厂集体下场后，创业公司还有哪些机会？</p>
+  <h3 class="card-title"><a href="https://www.infoq.cn/article/yB9yJlJADmFBNurNUEaG?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">如何在 Snowflake 上构建可编程 AI Agent？Cortex Code Agent SDK 深度解析 ｜ 技术实践</a></h3>
+  
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.qbitai.com/2026/05/423421.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.infoq.cn/article/yB9yJlJADmFBNurNUEaG?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="model">
+</div><div class="card" data-category="compute">
+  <div class="card-meta">
+    <span class="src">InfoQ中文</span>
+    <span class="tm">13:20</span>
+  </div>
+  <h3 class="card-title"><a href="https://www.infoq.cn/article/YHD4cguvebWJled2FK96?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener">从模型诞生到上线：Ray 在小红书 AI 数据生产中的算力调度实践｜AICon上海</a></h3>
+  
+  <div class="card-ft">
+    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
+    <a href="https://www.infoq.cn/article/YHD4cguvebWJled2FK96?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
+  </div>
+</div><div class="card" data-category="model">
   <div class="card-meta">
     <span class="src">钛媒体</span>
-    <span class="tm">昨天 10:02</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://www.tmtpost.com/8000513.html" target="_blank" rel="noopener">Mythos的面纱，成了Anthropic撬动万亿的杠杆</a></h3>
-  <p class="card-desc">谷歌和白宫，都拜倒在一个未公开发布的大模型下。</p>
+  <h3 class="card-title"><a href="https://www.tmtpost.com/8002352.html" target="_blank" rel="noopener">DeepSeek永久降价，第一个赢家已经浮出水面</a></h3>
+  <p class="card-desc">Reasonix成了第一款效率高、损耗低的水龙头。</p>
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.tmtpost.com/8000513.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.tmtpost.com/8002352.html" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="other">
+</div><div class="card" data-category="compute">
   <div class="card-meta">
-    <span class="src">InfoQ中文</span>
-    <span class="tm">昨天 10:00</span>
+    <span class="src">钛媒体</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://www.infoq.cn/article/0FPPymvSNjV9LbAIhXxO?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">破局多端困境，拥抱 AI 变革：飞猪跨端技术的过去、现在与未来｜AICon上海</a></h3>
-  <p class="card-desc">点击查看原文></p>
+  <h3 class="card-title"><a href="https://www.tmtpost.com/8001466.html" target="_blank" rel="noopener">“死磕”鲲鹏昇腾生态的极客们，要搞点大事情</a></h3>
+  <p class="card-desc">曾经的盐碱地，已经变成了肥沃的黑土地。</p>
   <div class="card-ft">
-    <span class="badge" style="background:#6b728018;color:#6b7280">其他</span>
-    <a href="https://www.infoq.cn/article/0FPPymvSNjV9LbAIhXxO?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
+    <a href="https://www.tmtpost.com/8001466.html" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="model">
+</div><div class="card" data-category="model">
   <div class="card-meta">
-    <span class="src">InfoQ中文</span>
-    <span class="tm">昨天 08:00</span>
+    <span class="src">IT之家</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://www.infoq.cn/article/7DfZeiQH0zm08P88xIw9?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">大规模工程支撑场景下的多智能体系统设计：Grab 实践案例</a></h3>
-  <p class="card-desc">点击查看原文></p>
+  <h3 class="card-title"><a href="https://www.ithome.com/0/955/265.htm" target="_blank" rel="noopener">昆仑万维天工 AI 发布 SkyClaw-v1.0：面向真实工作流的百万上下文 Agent 模型</a></h3>
+  
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.infoq.cn/article/7DfZeiQH0zm08P88xIw9?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.ithome.com/0/955/265.htm" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="industry">
+</div><div class="card" data-category="model">
   <div class="card-meta">
-    <span class="src">量子位</span>
-    <span class="tm">昨天 06:20</span>
+    <span class="src">IT之家</span>
+    <span class="tm">13:20</span>
   </div>
-  <h3 class="card-title"><a href="https://www.qbitai.com/2026/05/423390.html" target="_blank" rel="noopener">谷歌CEO承认Coding落后了</a></h3>
-  <p class="card-desc">搜索25年来最大改版，但谷歌还不敢一脚切到AI</p>
+  <h3 class="card-title"><a href="https://www.ithome.com/0/955/264.htm" target="_blank" rel="noopener">“神奇小子”乔治 &#183; 霍茨警告称 AI 编程智能体将成软件最大隐患</a></h3>
+  
   <div class="card-ft">
-    <span class="badge" style="background:#10b98118;color:#10b981">行业应用</span>
-    <a href="https://www.qbitai.com/2026/05/423390.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
+    <a href="https://www.ithome.com/0/955/264.htm" target="_blank" rel="noopener" class="go">" + [char]0x9605 + [char]0x8BFB + [char]0x539F + [char]0x6587 + " &rarr;</a>
   </div>
-</div>
-
-</div>
-
-<div class="footer">
-  更新于 2026-05-25 08:01 &nbsp;|&nbsp; 每个数据源精选当日最新 1-2 篇 AI 资讯<br>
-  数据来源于公开网络，仅供参考
-</div>
-
-<button class="btt" id="btt" title="回到顶部">↑</button>
-
+</div></div>
+<div class="footer">更新于 2026-05-26 13:20 | 每个数据源精选当日最新 1-2 篇 AI 资讯<br>数据来源于公开网络，仅供参考</div>
+<button class="btt" id="btt" title="back to top">↑</button>
 <script>
-(function() {
-  var btns = document.querySelectorAll('.cat-btn');
-  var cards = document.querySelectorAll('.card');
-
-  btns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      btns.forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      var cat = btn.getAttribute('data-cat');
-      var show = 0;
-      cards.forEach(function(c) {
-        if (cat === 'all' || c.getAttribute('data-category') === cat) {
-          c.style.display = '';
-          show++;
-        } else {
-          c.style.display = 'none';
-        }
-      });
-      var empty = document.querySelector('.empty');
-      if (empty) empty.remove();
-      if (show === 0) {
-        var grid = document.querySelector('.grid');
-        var e = document.createElement('div');
-        e.className = 'empty';
-        e.textContent = '该分类暂无资讯';
-        grid.appendChild(e);
-      }
-    });
-  });
-
-  var btt = document.getElementById('btt');
-  window.addEventListener('scroll', function() {
-    btt.classList.toggle('show', window.scrollY > 400);
-  });
-  btt.addEventListener('click', function() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-})();
+(function(){var b=document.querySelectorAll('.cat-btn'),c=document.querySelectorAll('.card');b.forEach(function(x){x.addEventListener('click',function(){b.forEach(function(y){y.classList.remove('active')});x.classList.add('active');var t=x.getAttribute('data-cat'),s=0;c.forEach(function(d){if(t==='all'||d.getAttribute('data-category')===t){d.style.display='';s++}else{d.style.display='none'}});var e=document.querySelector('.empty');if(e)e.remove();if(s===0){var g=document.querySelector('.grid'),n=document.createElement('div');n.className='empty';n.textContent='该分类暂无资讯';g.appendChild(n)}})});var bt=document.getElementById('btt');window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>400)});bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
 </script>
-
 </body>
 </html>
