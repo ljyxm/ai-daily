@@ -9,7 +9,8 @@
 body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.6;min-height:100vh}
 .header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:32px 32px 24px;text-align:center}
 .header h1{font-size:26px;font-weight:700;margin-bottom:4px;letter-spacing:1px}
-.header .date{font-size:14px;opacity:.85}
+.header .date{font-size:14px;opacity:.85;margin-bottom:6px}
+.header .sub{font-size:13px;opacity:.7;font-weight:300;letter-spacing:.5px}
 .hot-bar{background:#fff8f2;border-bottom:1px solid #ffe4cc;padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .hot-label{font-size:12px;color:#f59e0b;font-weight:600;flex-shrink:0}
 .hot-tag{font-size:12px;padding:3px 10px;border-radius:12px;border:1px solid #fed7aa;color:#92400e;background:#fff7ed;cursor:default}
@@ -48,8 +49,8 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",
 </style>
 </head>
 <body>
-<div class="header"><h1>AI Daily</h1><div class="date">2026年06月07日</div></div>
-<div class="weekly-banner"> 本周AI洞察已更新：<a href="weekly.html">查看产业趋势预判 &amp; 政企数字化业务建议 →</a></div>
+<div class="header"><h1>AI Daily</h1><div class="date">2026年06月07日</div><div class="sub">汇聚每日最新最热AI资讯，实时掌握最新AI行业动态</div></div>
+<div class="weekly-banner">敬请阅读AI洞察报告：<a href="weekly.html">产业趋势预判 &amp; 政企数字化建议 →</a></div>
 <div class="hot-bar"><span class="hot-label">今日热点</span><span class="hot-tag heat-2" title="from 2 sources">大模型</span><span class="hot-tag " title="from 1 sources">开源</span><span class="hot-tag " title="from 1 sources">算力</span><span class="hot-tag " title="from 1 sources">Claude</span><span class="hot-tag " title="from 1 sources">投资</span><span class="hot-tag " title="from 1 sources">智能体</span></div>
 <div class="filter"><button class="cat-btn active" data-cat="all">全部 <span class="cnt">10</span></button><button class="cat-btn" data-cat="compute">🖥️ 智算算力 <span class="cnt">1</span></button><button class="cat-btn" data-cat="model">🤖 大模型与智能体 <span class="cnt">5</span></button><button class="cat-btn" data-cat="capital">💰 资本动态 <span class="cnt">1</span></button><button class="cat-btn" data-cat="other">其他 <span class="cnt">3</span></button></div>
 <div class="grid"><div class="card" data-category="other">
@@ -163,7 +164,7 @@ body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",
     <a href="https://www.ithome.com/0/960/994.htm" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
 </div></div>
-<div class="footer">更新于 2026-06-07 07:54 | 每个数据源精选当日最新 1-2 篇 AI 资讯<br><a href='weekly.html' style='color:#667eea;text-decoration:none;font-weight:600'>→ 查看本周洞察报告</a><br>数据来源于公开网络，仅供参考</div>
+<div class="footer">更新于 2026-06-07 07:54<br><a href='weekly.html' style='color:#667eea;text-decoration:none;font-weight:600'>→ 查看本周洞察报告</a><br>数据来源于公开网络，仅供参考</div>
 <button class="btt" id="btt" title="back to top">↑</button>
 <script>
 (function(){var b=document.querySelectorAll('.cat-btn'),c=document.querySelectorAll('.card');b.forEach(function(x){x.addEventListener('click',function(){b.forEach(function(y){y.classList.remove('active')});x.classList.add('active');var t=x.getAttribute('data-cat'),s=0;c.forEach(function(d){if(t==='all'||d.getAttribute('data-category')===t){d.style.display='';s++}else{d.style.display='none'}});var e=document.querySelector('.empty');if(e)e.remove();if(s===0){var g=document.querySelector('.grid'),n=document.createElement('div');n.className='empty';n.textContent='该分类暂无资讯';g.appendChild(n)}})});var bt=document.getElementById('btt');window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>400)});bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
