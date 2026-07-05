@@ -1,476 +1,151 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 每日日报 - 2026年07月04日</title>
+<title>AI Daily - 2026年07月06日</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
-  background: #f4f5f9;
-  color: #1a1a2e;
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-/* ---- Header ---- */
-.header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-  padding: 32px 32px 24px;
-  text-align: center;
-}
-.header h1 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  letter-spacing: 1px;
-}
-.header .date {
-  font-size: 14px;
-  opacity: 0.85;
-}
-.header .stats {
-  margin-top: 8px;
-  font-size: 12px;
-  opacity: 0.65;
-}
-
-/* ---- Hot Bar ---- */
-.hot-bar {
-  background: #fff8f2;
-  border-bottom: 1px solid #ffe4cc;
-  padding: 10px 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.hot-label {
-  font-size: 12px;
-  color: #f59e0b;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.hot-tag {
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 12px;
-  border: 1px solid #fed7aa;
-  color: #92400e;
-  background: #fff7ed;
-  cursor: default;
-}
-.hot-tag.heat-2 { background:#fff3cd; border-color:#fcd34d; color:#78350f; }
-.hot-tag.heat-3 { background:#fef3c7; border-color:#f59e0b; color:#92400e; font-weight:500; }
-.hot-tag.heat-4, .hot-tag.heat-5 {
-  background: linear-gradient(90deg,#fee2e2,#fde68a);
-  border-color: #f59e0b;
-  color: #7c2d12;
-  font-weight: 600;
-}
-
-/* ---- Filter Bar ---- */
-.filter {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 10px 24px;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-.filter::-webkit-scrollbar { height: 0; }
-
-.cat-btn {
-  flex-shrink: 0;
-  padding: 5px 14px;
-  border-radius: 20px;
-  border: 1.5px solid #e5e7eb;
-  background: #fff;
-  color: #6b7280;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all .2s;
-  white-space: nowrap;
-  font-family: inherit;
-}
-.cat-btn:hover { border-color: #667eea; color: #667eea; }
-.cat-btn.active { background: #667eea; border-color: #667eea; color: #fff; }
-.cnt {
-  display: inline-block;
-  min-width: 16px;
-  height: 16px;
-  line-height: 16px;
-  text-align: center;
-  border-radius: 8px;
-  font-size: 11px;
-  margin-left: 3px;
-  background: rgba(0,0,0,0.08);
-  padding: 0 4px;
-}
-.cat-btn.active .cnt { background: rgba(255,255,255,0.3); }
-
-/* ---- Card Grid ---- */
-.grid {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 20px 20px 60px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-  gap: 14px;
-}
-@media (max-width: 520px) {
-  .grid { grid-template-columns: 1fr; padding: 12px; }
-}
-
-/* ---- Card ---- */
-.card {
-  background: #fff;
-  border-radius: 10px;
-  padding: 18px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  border: 1px solid #f0f0f4;
-  transition: box-shadow .2s, transform .15s;
-  display: flex;
-  flex-direction: column;
-}
-.card:hover {
-  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
-  transform: translateY(-2px);
-}
-.card-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #9ca3af;
-  margin-bottom: 7px;
-}
-.src {
-  background: #f3f4f6;
-  padding: 2px 7px;
-  border-radius: 4px;
-  font-weight: 500;
-  color: #374151;
-}
-.card-title {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.5;
-  margin-bottom: 7px;
-  color: #1f2937;
-}
-.card-title a { color: inherit; text-decoration: none; }
-.card-title a:hover { color: #667eea; }
-.card-desc {
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.6;
-  margin-bottom: 10px;
-  flex-grow: 1;
-}
-.card-ft {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-.badge {
-  font-size: 11px;
-  padding: 2px 9px;
-  border-radius: 10px;
-  font-weight: 500;
-}
-.go {
-  font-size: 12px;
-  color: #667eea;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color .2s;
-}
-.go:hover { color: #4f46e5; text-decoration: underline; }
-
-/* ---- Empty ---- */
-.empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: #9ca3af;
-  font-size: 15px;
-  grid-column: 1 / -1;
-}
-
-/* ---- Footer ---- */
-.footer {
-  text-align: center;
-  padding: 20px;
-  color: #9ca3af;
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-/* ---- Back to top ---- */
-.btt {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #667eea;
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 17px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 8px rgba(102,126,234,0.4);
-  z-index: 200;
-}
-.btt.show { display: flex; }
-.btt:hover { opacity: 0.85; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei","Helvetica Neue",sans-serif;background:#f4f5f9;color:#1a1a2e;line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:32px 32px 24px;text-align:center}
+.header h1{font-size:26px;font-weight:700;margin-bottom:4px;letter-spacing:1px}
+.header .date{font-size:14px;opacity:.85;margin-bottom:6px}
+.header .sub{font-size:13px;opacity:.7;font-weight:300;letter-spacing:.5px}
+.hot-bar{background:#fff8f2;border-bottom:1px solid #ffe4cc;padding:10px 24px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hot-label{font-size:12px;color:#f59e0b;font-weight:600;flex-shrink:0}
+.hot-tag{font-size:12px;padding:3px 10px;border-radius:12px;border:1px solid #fed7aa;color:#92400e;background:#fff7ed;cursor:default}
+.hot-tag.heat-2{background:#fff3cd;border-color:#fcd34d;color:#78350f}
+.hot-tag.heat-3{background:#fef3c7;border-color:#f59e0b;color:#92400e;font-weight:500}
+.hot-tag.heat-4,.hot-tag.heat-5{background:linear-gradient(90deg,#fee2e2,#fde68a);border-color:#f59e0b;color:#7c2d12;font-weight:600}
+.filter{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #e5e7eb;padding:10px 24px;display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.filter::-webkit-scrollbar{height:0}
+.cat-btn{flex-shrink:0;padding:5px 14px;border-radius:20px;border:1.5px solid #e5e7eb;background:#fff;color:#6b7280;font-size:13px;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:inherit}
+.cat-btn:hover{border-color:#667eea;color:#667eea}
+.cat-btn.active{background:#667eea;border-color:#667eea;color:#fff}
+.cnt{display:inline-block;min-width:16px;height:16px;line-height:16px;text-align:center;border-radius:8px;font-size:11px;margin-left:3px;background:rgba(0,0,0,.08);padding:0 4px}
+.cat-btn.active .cnt{background:rgba(255,255,255,.3)}
+.grid{max-width:960px;margin:0 auto;padding:20px 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+@media(max-width:520px){.grid{grid-template-columns:1fr;padding:12px}}
+.card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f0f4;transition:box-shadow .2s,transform .15s;display:flex;flex-direction:column}
+.card:hover{box-shadow:0 4px 14px rgba(0,0,0,.09);transform:translateY(-2px)}
+.card-meta{display:flex;justify-content:space-between;font-size:12px;color:#9ca3af;margin-bottom:7px}
+.src{background:#f3f4f6;padding:2px 7px;border-radius:4px;font-weight:500;color:#374151}
+.card-title{font-size:15px;font-weight:600;line-height:1.5;margin-bottom:7px;color:#1f2937}
+.card-title a{color:inherit;text-decoration:none}
+.card-title a:hover{color:#667eea}
+.card-desc{font-size:13px;color:#6b7280;line-height:1.6;margin-bottom:10px;flex-grow:1}
+.card-ft{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.badge{font-size:11px;padding:2px 9px;border-radius:10px;font-weight:500}
+.go{font-size:12px;color:#667eea;text-decoration:none;font-weight:500;transition:color .2s}
+.go:hover{color:#4f46e5;text-decoration:underline}
+.empty{text-align:center;padding:60px 20px;color:#9ca3af;font-size:15px;grid-column:1/-1}
+.footer{text-align:center;padding:20px;color:#9ca3af;font-size:12px;line-height:1.8}
+.btt{position:fixed;bottom:24px;right:24px;width:38px;height:38px;border-radius:50%;background:#667eea;color:#fff;border:none;cursor:pointer;font-size:17px;display:none;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(102,126,234,.4);z-index:200}
+.btt.show{display:flex}
+.btt:hover{opacity:.85}
+.weekly-banner{background:linear-gradient(135deg,#1e3a5f,#0ea5e9);color:#fff;text-align:center;padding:12px 20px;font-size:14px;letter-spacing:0.5px}
+.weekly-banner a{color:#fde68a;text-decoration:none;font-weight:600;margin-left:8px}
+.weekly-banner a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-
-<div class="header">
-  <h1>AI 每日日报</h1>
-  <div class="date">2026年07月04日 周六</div>
-</div>
-
-<div class="hot-bar"><span class="hot-label">今日热点</span><span class="hot-tag heat-2" title="来自 2 个数据源">Claude</span><span class="hot-tag heat-2" title="来自 2 个数据源">大模型</span><span class="hot-tag heat-1" title="来自 1 个数据源">Agent</span><span class="hot-tag heat-1" title="来自 1 个数据源">机器人</span><span class="hot-tag heat-1" title="来自 1 个数据源">芯片</span><span class="hot-tag heat-1" title="来自 1 个数据源">英伟达</span><span class="hot-tag heat-1" title="来自 1 个数据源">融资</span><span class="hot-tag heat-1" title="来自 1 个数据源">视频生成</span></div>
-
-<div class="filter">
-  <button class="cat-btn active" data-cat="all">全部 <span class="cnt">14</span></button><button class="cat-btn" data-cat="compute">🖥️ 智算算力 <span class="cnt">2</span></button><button class="cat-btn" data-cat="model">🤖 大模型与智能体 <span class="cnt">8</span></button><button class="cat-btn" data-cat="industry">🏭 行业应用 <span class="cnt">1</span></button><button class="cat-btn" data-cat="capital">💰 资本动态 <span class="cnt">1</span></button><button class="cat-btn" data-cat="other">其他 <span class="cnt">2</span></button>
-</div>
-
-<div class="grid">
-  <div class="card" data-category="compute">
+<div class="header"><h1>AI Daily</h1><div class="date">2026年07月06日</div><div class="sub">汇聚每日最新最烫AI资，实时掌握最新AI行业动态</div></div>
+<div class="weekly-banner">敬请阅读AI洞察报告：<a href="weekly.html">产业趋势预判 &amp; 政企数字化建议 →</a></div>
+<div class="hot-bar"><span class="hot-label">今日热点</span><span class="hot-tag heat-2" title="from 2 sources">智能体</span><span class="hot-tag heat-2" title="from 2 sources">豆包</span><span class="hot-tag heat-2" title="from 2 sources">融资</span><span class="hot-tag " title="from 1 sources">算力</span><span class="hot-tag " title="from 1 sources">Agent</span><span class="hot-tag " title="from 1 sources">英伟达</span><span class="hot-tag " title="from 1 sources">上市</span><span class="hot-tag " title="from 1 sources">投资</span></div>
+<div class="filter"><button class="cat-btn active" data-cat="all">全部 <span class="cnt">8</span></button><button class="cat-btn" data-cat="compute">🖥️ 智算算力 <span class="cnt">3</span></button><button class="cat-btn" data-cat="model">🤖 大模型与智能体 <span class="cnt">2</span></button><button class="cat-btn" data-cat="industry">🏭 行业应用 <span class="cnt">1</span></button><button class="cat-btn" data-cat="research">🔬 学术前沿 <span class="cnt">1</span></button><button class="cat-btn" data-cat="capital">💰 资本动态 <span class="cnt">1</span></button></div>
+<div class="grid"><div class="card" data-category="compute">
   <div class="card-meta">
-    <span class="src">虎嗅</span>
-    <span class="tm">今天 08:01</span>
+    <span class="src">量子位</span>
+    <span class="tm">07-05 22:30</span>
   </div>
-  <h3 class="card-title"><a href="https://www.huxiu.com/article/4840777.html" target="_blank" rel="noopener">2026年AI赛道最大金主现身:英伟达密集出手,超级独角兽集体“站队”</a></h3>
-  
+  <h3 class="card-title"><a href="https://www.qbitai.com/2026/07/443339.html" target="_blank" rel="noopener">Meta也来卖铲子了！小扎：模型可以慢，GPU必须赚</a></h3>
+  <p class="card-desc">正考虑推出Meta Compute</p>
   <div class="card-ft">
     <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
-    <a href="https://www.huxiu.com/article/4840777.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.qbitai.com/2026/07/443339.html" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="other">
+</div><div class="card" data-category="research">
   <div class="card-meta">
-    <span class="src">虎嗅</span>
-    <span class="tm">今天 08:01</span>
+    <span class="src">量子位</span>
+    <span class="tm">07-05 21:38</span>
   </div>
-  <h3 class="card-title"><a href="https://www.huxiu.com/moment/1258843.html" target="_blank" rel="noopener">世界经济论坛人工智能专家:全球最终或仅剩10个基础模型,AI碎片化...</a></h3>
-  
+  <h3 class="card-title"><a href="https://www.qbitai.com/2026/07/443186.html" target="_blank" rel="noopener">华为更新韬定律论文！</a></h3>
+  <p class="card-desc">放弃的路线也说清楚了</p>
   <div class="card-ft">
-    <span class="badge" style="background:#6b728018;color:#6b7280">其他</span>
-    <a href="https://www.huxiu.com/moment/1258843.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <span class="badge" style="background:#3b82f618;color:#3b82f6">学术前沿</span>
+    <a href="https://www.qbitai.com/2026/07/443186.html" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="capital">
+</div><div class="card" data-category="compute">
   <div class="card-meta">
-    <span class="src">腾讯科技</span>
-    <span class="tm">今天 08:00</span>
+    <span class="src">36氪</span>
+    <span class="tm">07:54</span>
   </div>
-  <h3 class="card-title"><a href="https://www.thepaper.cn/newsDetail_forward_27521754" target="_blank" rel="noopener">腾讯首投大模型独角兽Moonshot;多家大厂AI大牛离职创业|投融资周报</a></h3>
-  
+  <h3 class="card-title"><a href="https://36kr.com/newsflashes/3883384178487296?f=rss" target="_blank" rel="noopener">中信建投：算力硬件高波动期，等待财报指引落地</a></h3>
+  <p class="card-desc">36氪获悉，中信建投研报表示，Meta宣布出售部分过剩算力资源，市场初期反应偏向负面，担忧此举是否预示着AI算力需求见顶或行业景气度下行。但从行业供需格局来看，AI算力需求的中长期驱动逻辑并未因Meta的单一行为而受损，关键环节也仍然制约着...</p>
+  <div class="card-ft">
+    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
+    <a href="https://36kr.com/newsflashes/3883384178487296?f=rss" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
+  </div>
+</div><div class="card" data-category="capital">
+  <div class="card-meta">
+    <span class="src">36氪</span>
+    <span class="tm">07:54</span>
+  </div>
+  <h3 class="card-title"><a href="https://36kr.com/p/3880060701388809?f=rss" target="_blank" rel="noopener">鄂尔多斯、和达金服共同领投，「贻如科技」完成超亿元A轮融资｜36氪首发</a></h3>
+  <p class="card-desc"> 36氪获悉，生物基皮革公司「贻如科技」完成超亿元A轮融资，本轮融资由鄂尔多斯集团与和达金服共同领投，巢生资本跟投，易凯资本担任独家财务顾问。本轮资金将主要用于推动公司商业化开拓与产能建设，并依托AI技术加速生物基皮革的技术革新与产品迭代。...</p>
   <div class="card-ft">
     <span class="badge" style="background:#ec489918;color:#ec4899">资本动态</span>
-    <a href="https://www.thepaper.cn/newsDetail_forward_27521754" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://36kr.com/p/3880060701388809?f=rss" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="model">
-  <div class="card-meta">
-    <span class="src">腾讯科技</span>
-    <span class="tm">今天 08:00</span>
-  </div>
-  <h3 class="card-title"><a href="https://baijiahao.baidu.com/s?id=1803745416055796598&wfr=spider&for=pc" target="_blank" rel="noopener">...AI,腾讯混元大模型如何释放科技向“新”力|2024世界人工智能大会</a></h3>
-  
-  <div class="card-ft">
-    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://baijiahao.baidu.com/s?id=1803745416055796598&wfr=spider&for=pc" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="compute">
-  <div class="card-meta">
-    <span class="src">IT之家</span>
-    <span class="tm">昨天 23:53</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.ithome.com/0/972/476.htm" target="_blank" rel="noopener">苹果 iPhone Air 2 再曝：面容 ID 组件缩小为 48MP 双摄腾出空间，A20 Pro 芯片</a></h3>
-  <p class="card-desc">IT之家 7 月 4 日消息，爆料人乔恩 · 普罗瑟（Jon Prosser）今天在最新一期 fpt.视频中为我们带来了 iPhone Air 2 最新情报，显示该机将新增第二颗后置摄像头，搭载 A20 Pro 芯片。据介绍，iPhone ...</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
-    <a href="https://www.ithome.com/0/972/476.htm" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="model">
-  <div class="card-meta">
-    <span class="src">IT之家</span>
-    <span class="tm">昨天 23:37</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.ithome.com/0/972/472.htm" target="_blank" rel="noopener">已修复：微软承认经典版 Outlook 中部分用户无法访问 Copilot 入口</a></h3>
-  <p class="card-desc">IT之家 7 月 4 日消息，微软于 7 月 1 日更新官方文档，承认经典版 Outlook 升级 Build 20026.20182 版本后，拥有 Copilot Chat（基础版）许可证的用户无法访问所有 Copilot 入口。微软官方...</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.ithome.com/0/972/472.htm" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="model">
-  <div class="card-meta">
-    <span class="src">InfoQ中文</span>
-    <span class="tm">昨天 19:27</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.infoq.cn/article/GEkEm7rkUJfF8bdwTuBt?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">Claude Code 80%的提示词说删就删，Anthropic用Fable 5打了个样：AI行业的“降本”才刚刚开始</a></h3>
-  <p class="card-desc">点击查看原文></p>
-  <div class="card-ft">
-    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.infoq.cn/article/GEkEm7rkUJfF8bdwTuBt?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="model">
-  <div class="card-meta">
-    <span class="src">InfoQ中文</span>
-    <span class="tm">昨天 19:03</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.infoq.cn/article/pNFHkLos3FoDNm8cQsyt?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">Agent 上岗之后，企业如何治理硅基团队？</a></h3>
-  <p class="card-desc">点击查看原文></p>
-  <div class="card-ft">
-    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.infoq.cn/article/pNFHkLos3FoDNm8cQsyt?utm_source=rss&utm_medium=article" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="model">
-  <div class="card-meta">
-    <span class="src">量子位</span>
-    <span class="tm">昨天 14:28</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.qbitai.com/2026/07/442746.html" target="_blank" rel="noopener">从LLM到JEPA，中国团队正在把“世界模型”搬进细胞内部</a></h3>
-  <p class="card-desc">四年前LeCun提出JEPA时，大概不会想到，这套架构有一天会被用来理解：一颗细胞。</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.qbitai.com/2026/07/442746.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="model">
+</div><div class="card" data-category="model">
   <div class="card-meta">
     <span class="src">钛媒体</span>
-    <span class="tm">昨天 14:23</span>
+    <span class="tm">07:54</span>
   </div>
-  <h3 class="card-title"><a href="https://www.tmtpost.com/8052433.html" target="_blank" rel="noopener">可灵AI两部作品同时拿下戛纳金狮，视频大模型闯进商业创意主战场</a></h3>
-  <p class="card-desc">当2026年的夏天，AI不再只做隐藏在制作流程里的工具，它便打开了一个比技术参数更大的商业空间。</p>
+  <h3 class="card-title"><a href="https://www.tmtpost.com/8053349.html" target="_blank" rel="noopener">【钛晨报】A股交易新规今起施行：盘后交易全覆盖、5%涨跌停成历史；豆包、千问齐宣布，将下线智能体功能；万亿中际旭创，紧急澄清</a></h3>
+  <p class="card-desc">央行今日开展万亿元买断式逆回购操作；鸿海6月销售额8218亿元台币，同比增长52.1％；张雪称负债接近1亿元，本月将还清全部债务；东方盛虹预计上半年度净利润同比增长987%-1195%；中国成功发射千帆星座组网卫星；事关每个股民，A股再融资...</p>
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.tmtpost.com/8052433.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.tmtpost.com/8053349.html" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="industry">
+</div><div class="card" data-category="industry">
   <div class="card-meta">
-    <span class="src">36氪</span>
-    <span class="tm">昨天 12:28</span>
+    <span class="src">钛媒体</span>
+    <span class="tm">07-05 21:20</span>
   </div>
-  <h3 class="card-title"><a href="https://36kr.com/p/3879807100023040?f=rss" target="_blank" rel="noopener">400家starup聚集、阿斯利康重押13亿欧元，创新药出海欧洲绕不开这座城｜最前线</a></h3>
-  <p class="card-desc">文｜胡香赟
-  编辑｜海若镜
-  2026年6月底，西班牙瓦尔德希伯伦大学医院（Vall d’Hebron University Hospital）宣布完成欧洲首例单孔机器人儿科肾输尿管切除术。
-  瓦尔德希伯伦大学医院是西班牙规模最大的综...</p>
+  <h3 class="card-title"><a href="https://www.tmtpost.com/8053400.html" target="_blank" rel="noopener">【ESG-V评级观察】北京上市公司价值重估：金融与硬科技抬升上限，地产与部分传统产业承压</a></h3>
+  <p class="card-desc">北京上市公司整体高评级企业密度较高，尤其在金融、软件、半导体、央企平台和高端制造领域具备明显优势；但与此同时，房地产、部分传统制造、部分软件服务和中小科技企业，也出现了较为明显的评级下沉。</p>
   <div class="card-ft">
     <span class="badge" style="background:#10b98118;color:#10b981">行业应用</span>
-    <a href="https://36kr.com/p/3879807100023040?f=rss" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.tmtpost.com/8053400.html" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="other">
+</div><div class="card" data-category="model">
   <div class="card-meta">
-    <span class="src">量子位</span>
-    <span class="tm">昨天 12:17</span>
+    <span class="src">IT之家</span>
+    <span class="tm">07-05 23:28</span>
   </div>
-  <h3 class="card-title"><a href="https://www.qbitai.com/2026/07/442567.html" target="_blank" rel="noopener">Fable 5回归24小时差评如潮！跑分大降，拒答问题，还偷偷骂用户</a></h3>
-  <p class="card-desc">单词数r也是风险问题？！</p>
-  <div class="card-ft">
-    <span class="badge" style="background:#6b728018;color:#6b7280">其他</span>
-    <a href="https://www.qbitai.com/2026/07/442567.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
-  </div>
-</div>
-<div class="card" data-category="model">
-  <div class="card-meta">
-    <span class="src">钛媒体</span>
-    <span class="tm">昨天 12:04</span>
-  </div>
-  <h3 class="card-title"><a href="https://www.tmtpost.com/8052531.html" target="_blank" rel="noopener">Alibaba Bans Employees From Using Claude Code</a></h3>
+  <h3 class="card-title"><a href="https://www.ithome.com/0/972/874.htm" target="_blank" rel="noopener">IT早报 0706：豆包千问智能体 Agent 下线；多地推行网约车“一车一码”；我国“人造太阳”计划 2030 年演示发出第一度电；微信承诺异常企微拉群将强制确认...</a></h3>
   
   <div class="card-ft">
     <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://www.tmtpost.com/8052531.html" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <a href="https://www.ithome.com/0/972/874.htm" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-<div class="card" data-category="model">
+</div><div class="card" data-category="compute">
   <div class="card-meta">
-    <span class="src">36氪</span>
-    <span class="tm">昨天 11:55</span>
+    <span class="src">IT之家</span>
+    <span class="tm">07-05 23:22</span>
   </div>
-  <h3 class="card-title"><a href="https://36kr.com/newsflashes/3879857819201798?f=rss" target="_blank" rel="noopener">生数科技正式发布Vidu S1实时交互模型</a></h3>
-  <p class="card-desc">36氪获悉，生数科技正式发布Vidu S1实时交互模型，提供实时可交互的新一代视频生成能力，模型支持实时视频通话和语音控制视频走向。同时，Vidu S1支持540P（960x540）高清分辨率、25FPS帧率（最高支持42FPS），可基于真...</p>
+  <h3 class="card-title"><a href="https://www.ithome.com/0/972/872.htm" target="_blank" rel="noopener">HBM 之父金正浩：AI 的本质是内存，GPU 真正工作的时间只有 10%-30%</a></h3>
+  
   <div class="card-ft">
-    <span class="badge" style="background:#8b5cf618;color:#8b5cf6">大模型与智能体</span>
-    <a href="https://36kr.com/newsflashes/3879857819201798?f=rss" target="_blank" rel="noopener" class="go">阅读原文 →</a>
+    <span class="badge" style="background:#ef444418;color:#ef4444">智算算力</span>
+    <a href="https://www.ithome.com/0/972/872.htm" target="_blank" rel="noopener" class="go">阅读原文 &rarr;</a>
   </div>
-</div>
-
-</div>
-
-<div class="footer">
-  更新于 2026-07-04 08:01 &nbsp;|&nbsp; 每个数据源精选当日最新 1-2 篇 AI 资讯<br>
-  数据来源于公开网络，仅供参考
-</div>
-
-<button class="btt" id="btt" title="回到顶部">↑</button>
-
+</div></div>
+<div class="footer">更新于 2026-07-06 07:54 | 每个数据源精选当日最新 1-2 篇 AI 资讯<br><a href='weekly.html' style='color:#667eea;text-decoration:none;font-weight:600'>→ 查看本周洞察报告</a><br>数据来源于公开网络，仅供参考</div>
+<button class="btt" id="btt" title="back to top">↑</button>
 <script>
-(function() {
-  var btns = document.querySelectorAll('.cat-btn');
-  var cards = document.querySelectorAll('.card');
-
-  btns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      btns.forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      var cat = btn.getAttribute('data-cat');
-      var show = 0;
-      cards.forEach(function(c) {
-        if (cat === 'all' || c.getAttribute('data-category') === cat) {
-          c.style.display = '';
-          show++;
-        } else {
-          c.style.display = 'none';
-        }
-      });
-      var empty = document.querySelector('.empty');
-      if (empty) empty.remove();
-      if (show === 0) {
-        var grid = document.querySelector('.grid');
-        var e = document.createElement('div');
-        e.className = 'empty';
-        e.textContent = '该分类暂无资讯';
-        grid.appendChild(e);
-      }
-    });
-  });
-
-  var btt = document.getElementById('btt');
-  window.addEventListener('scroll', function() {
-    btt.classList.toggle('show', window.scrollY > 400);
-  });
-  btt.addEventListener('click', function() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-})();
+(function(){var b=document.querySelectorAll('.cat-btn'),c=document.querySelectorAll('.card');b.forEach(function(x){x.addEventListener('click',function(){b.forEach(function(y){y.classList.remove('active')});x.classList.add('active');var t=x.getAttribute('data-cat'),s=0;c.forEach(function(d){if(t==='all'||d.getAttribute('data-category')===t){d.style.display='';s++}else{d.style.display='none'}});var e=document.querySelector('.empty');if(e)e.remove();if(s===0){var g=document.querySelector('.grid'),n=document.createElement('div');n.className='empty';n.textContent='该分类暂无资讯';g.appendChild(n)}})});var bt=document.getElementById('btt');window.addEventListener('scroll',function(){bt.classList.toggle('show',window.scrollY>400)});bt.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})})})();
 </script>
-
 </body>
 </html>
